@@ -53,6 +53,7 @@ class UserController {
   async getUsers(req, res) {
     try {
       const token = req.header("Authorization");
+      console.log("STEP 1 TOKEN FULL", token);
       const userList = await UserService.getUsers(token);
       res.json(userList);
     } catch (error) {

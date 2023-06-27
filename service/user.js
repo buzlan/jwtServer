@@ -24,7 +24,7 @@ class UserService {
   async login(email, password) {
     const user = await UserModel.findOne({ email });
     if (!user) {
-      throw new Error("Пользователя с такой почтой не сущесствует");
+      throw new Error("Пользователя с такой почтой не существует");
     }
     const isPassEquals = await bcrypt.compare(password, user.password);
     if (!isPassEquals) {
@@ -45,12 +45,12 @@ class UserService {
   }
   async refresh(refreshToken) {
     if (!refreshToken) {
-      throw new Error("Вы не авторизованны");
+      throw new Error("Вы не авторизованы");
     }
     const userData = tokenService.validateRefreshToken(refreshToken);
     const tokenFromDb = await tokenService.findToken(refreshToken);
     if (!userData || !tokenFromDb) {
-      throw new Error("Вы не авторизованны");
+      throw new Error("Вы не авторизованы");
     }
     const user = await UserModel.findById(userData.id);
     const userDto = new UserDto(user);
@@ -69,7 +69,7 @@ class UserService {
       !accessToken ||
       !tokenService.validateAccessToken(accessToken)
     ) {
-      throw new Error("Вы не авторизированны");
+      throw new Error("Вы не авторизированы");
     }
     const userList = await UserModel.find();
     return userList;

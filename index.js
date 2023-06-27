@@ -4,7 +4,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const router = require("./router/index");
-const PORT = process.env.PORT || 6000;
+const PORT = process.env.PORT || 8080;
 const app = express();
 
 app.use(express.json());
@@ -19,7 +19,7 @@ const start = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    app.listen(6000, () => console.log(`Server is listening on ${PORT}`));
+    app.listen(PORT, () => console.log(`Server is listening on ${PORT}`));
   } catch (error) {
     console.log(error);
   }
