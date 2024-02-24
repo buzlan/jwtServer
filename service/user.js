@@ -11,6 +11,7 @@ class UserService {
       throw new Error("Пользователь с такой почтой уже существует");
     }
     const hashPassword = await bcrypt.hash(password, 3);
+    console.log("Hash password", hashPassword);
     const user = await UserModel.create({ email, password: hashPassword });
     const userDto = new UserDto(user);
     const tokens = tokenService.generateTokens({ ...userDto }); // {пара токенов}

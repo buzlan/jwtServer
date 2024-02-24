@@ -4,21 +4,26 @@ class UserController {
   async registration(req, res) {
     try {
       const { email, password } = req.body;
-      const userData = await UserService.registration(email, password); // {token, userData}
+      const userData = await UserService.registration(email, password); // {tokens, userData}
+
+      //not needed for mobile (use secure storage instead)
+
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
       });
+
       return res.json(userData);
     } catch (error) {
       res.status(400).send(error.message);
     }
   }
-
   async login(req, res, next) {
     try {
       const { email, password } = req.body;
       const userData = await UserService.login(email, password);
+
+      //not needed for mobile (use secure storage instead)
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
@@ -31,6 +36,7 @@ class UserController {
 
   async logout(req, res, next) {
     try {
+      //for mobile get this token from body request
       const { refreshToken } = req.cookies;
       const token = await UserService.logout(refreshToken);
       res.clearCookie("refreshToken");
@@ -40,6 +46,7 @@ class UserController {
 
   async refresh(req, res, next) {
     try {
+      //for mobile get this token from body request
       const { refreshToken } = req.cookies;
       const userData = await UserService.refresh(refreshToken);
       res.cookie("refreshToken", userData.refreshToken, {
